@@ -217,7 +217,7 @@
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get form values
+            // Get form values and trim whitespace
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const invitationCode = document.getElementById('invitationCode').value.trim();
@@ -240,7 +240,7 @@
 
             // Simulate AJAX request with setTimeout
             setTimeout(() => {
-                // Assume correct credentials
+                // Assume correct credentials (case-sensitive)
                 if (email === 'mail@test' && password === 'test123' && invitationCode === 'inv123') {
                     // Hide login page and show dashboard
                     document.getElementById('loginContainer').style.display = 'none';
