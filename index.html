@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Background animation */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.05) 10%, transparent 10.01%);
+            background-size: 50px 50px;
+            animation: move-background 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes move-background {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(-25%, -25%);
+            }
+        }
+
+        .login-container {
+            background-color: #121212;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 0, 0.05);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Fade-in animation for the container */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Title animation */
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #ff6666;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Underline for title */
+        .login-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6666, #ff3333);
+            animation: underlineGrow 1s ease-in-out forwards;
+        }
+
+        @keyframes underlineGrow {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 60px;
+            }
+        }
+
+        /* Form group */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Labels */
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaaaaa;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Input fields */
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #1e1e1e;
+            color: #ffffff;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Focus effect on inputs */
+        .form-group input:focus {
+            background: #282828;
+            box-shadow: inset 0 0 8px rgba(255, 0, 0, 0.1);
+            outline: none;
+        }
+
+        /* Login button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ff6666, #ff3333);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-in-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        /* Hover effect on login button */
+        .login-btn:hover {
+            background: linear-gradient(90deg, #ff3333, #ff1a1a);
+            transform: scale(1.05);
+        }
+
+        /* Status messages */
+        .status-message {
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-message.success {
+            color: #4caf50;
+        }
+
+        .status-message.error {
+            color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group invitation-code">
+                <label for="invitationCode">Invitation Code:</label>
+                <input type="text" id="invitationCode" name="invitationCode" placeholder="Enter invitation code" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="status-message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const invitationCode = document.getElementById('invitationCode').value.trim();
+
+            // Validate inputs
+            if (!email || !password || !invitationCode) {
+                showStatusMessage('error', 'Please fill in all fields.');
+                return;
+            }
+
+            // Simulate login process (AJAX)
+            simulateLogin(email, password, invitationCode);
+        });
+
+        function simulateLogin(email, password, invitationCode) {
+            const statusMessageElement = document.querySelector('.status-message');
+
+            // Show loading message
+            showStatusMessage('info', 'Verifying...');
+
+            // Simulate AJAX request with setTimeout
+            setTimeout(() => {
+                // Assume correct invitation code is "ABC123"
+                if (invitationCode !== 'ABC123') {
+                    showStatusMessage('error', 'Invalid invitation code.');
+                    return;
+                }
+
+                // Assume correct email and password combination
+                if (email === 'test@example.com' && password === 'password123') {
+                    showStatusMessage('success', 'Login successful!');
+                } else {
+                    showStatusMessage('error', 'Incorrect email or password.');
+                }
+            }, 1500); // Simulate 1.5 seconds of loading time
+        }
+
+        function showStatusMessage(type, message) {
+            const statusMessageElement = document.querySelector('.status-message');
+            statusMessageElement.textContent = message;
+            statusMessageElement.className = `status-message ${type}`;
+            statusMessageElement.style.display = 'block';
+
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                statusMessageElement.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
